@@ -2,29 +2,44 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 public class Main {
+    static class Shake implements Comparable<Shake> {
+        int time;
+        int from;
+        int to;
+
+        public Shake(int time, int from, int to) {
+            this.time = time;
+            this.from = from;
+            this.to = to;
+        }
+
+        @Override
+        public int compareTo(Shake o) {
+            return Integer.compare(this.time, o.time);
+        }
+    }
+
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         int N = sc.nextInt(); // 개발자 수
         int K = sc.nextInt(); // 남은 전염 횟수
         int P = sc.nextInt(); // 최초 병원
         int T = sc.nextInt(); // 시간
-        int[][] shakes = new int[T][3];
+
+        Shake[] shakes = new Shake[T];
+        for (int i = 0; i < shakes.length; i++) {
+            shakes[i] = new Shake(sc.nextInt(), sc.nextInt(), sc.nextInt());
+        }
+        Arrays.sort(shakes);
         boolean[] virus = new boolean[N]; // 감염확인
         int[] avail = new int[N]; // 남은 전염가능일수
-
-        for (int i = 0; i < T; i++) {
-            shakes[i][0] = sc.nextInt(); // 초
-            shakes[i][1] = sc.nextInt(); // from
-            shakes[i][2] = sc.nextInt(); // to
-        }
-        Arrays.sort(shakes, (a, b) -> Integer.compare(a[0], b[0]));
-        // System.out.println(Arrays.deepToString(shakes));
-        int idx = 0;
         virus[P - 1] = true;
         avail[P - 1] = K;
+        int idx = 0;
+
         while (idx < T) {
-            int from = shakes[idx][1] - 1;
-            int to = shakes[idx][2] - 1;
+            int from = shakes[idx].from - 1;
+            int to = shakes[idx].to - 1;
 
             boolean canFrom = (virus[from] && avail[from] > 0);
             boolean canTo = (virus[to] && avail[to] > 0);
@@ -52,6 +67,5 @@ public class Main {
             } else
                 System.out.print(0);
         }
-        // Please write your code here.
     }
 }
