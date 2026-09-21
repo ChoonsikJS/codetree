@@ -20,14 +20,15 @@ public class Main {
                 v.add(x);
             }
             if(str.equals("get")){
-                System.out.println(v.get(x-1));
+                sb.append(v.get(x-1)).append("\n");
             }
             if(str.equals("pop_back")){
                 v.remove(v.size()-1);
             }
             if(str.equals("size")){
-                System.out.println(v.size());
+                sb.append(v.size()).append("\n");
             }
         }
+        System.out.print(sb);
     }
 }
